@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  telegram-bot:
+    image: nguyendangdat/ggsheet-alert:latest
+    container_name: office-telegram-bot
+    restart: unless-stopped
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - GOOGLE_SHEET_ID=${GOOGLE_SHEET_ID}
+      - GOOGLE_SHEET_NAME=${GOOGLE_SHEET_NAME:-SLOT OFFICE TRIAL}
+      - GOOGLE_CREDENTIALS_PATH=${GOOGLE_CREDENTIALS_PATH:-./credentials/google_credentials.json}
+      - TIMEZONE=${TIMEZONE:-Asia/Bangkok}
+      - CHECK_INTERVAL_MINUTES=${CHECK_INTERVAL_MINUTES:-15}
+    volumes:
+      - ./credentials:/app/credentials:ro
+      - ./data:/app/data:rw
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=10m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - bot-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 5m
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+networks:
+  bot-network:
+    driver: bridge

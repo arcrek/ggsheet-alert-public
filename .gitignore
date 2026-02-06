@@ -1,0 +1,10 @@
+.env
+!env.example
+credentials/
+!credentials/README.md
+data/whitelist.json
+*.log
+.DS_Store
+.idea/
+.vscode/
+.cursor/
