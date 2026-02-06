@@ -102,7 +102,7 @@ Copy your downloaded `google_credentials.json` file to the `credentials/` folder
 
 ### 4. Google Sheet Format
 
-
+Template: https://docs.google.com/spreadsheets/d/13-0TuOsvoGCpDnTrnEtDG31C4eLC7n5MneL4NxD0dx0/edit?usp=sharing
 
 **Alert Condition:** Bot sends alert when `H <= 0` AND `I < current_time` (UTC+7)
 
